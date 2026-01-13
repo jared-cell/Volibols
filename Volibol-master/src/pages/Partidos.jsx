@@ -1,4 +1,4 @@
-import "../styles/menuusuario.css"
+import "../styles/menuusuario.css";
 import "../styles/partidos.css"
 import { useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
