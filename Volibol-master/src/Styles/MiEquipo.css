@@ -1,0 +1,130 @@
+/* =========================
+   PÁGINA MI EQUIPO
+========================= */
+.team-page {
+  padding: 40px;
+  min-height: 100vh;
+  background: #f5f7fb;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* TITULOS */
+.team-page h1 {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 15px;
+}
+
+/* =========================
+   CARD DEL EQUIPO
+========================= */
+.team-card {
+  margin-top: 30px;
+  background: linear-gradient(135deg, #1e40af, #1e3a8a);
+  padding: 35px;
+  border-radius: 24px;
+  color: white;
+  box-shadow: 0 20px 45px rgba(30,64,175,0.35);
+  transition: transform .35s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+}
+
+.team-card h2 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* INFO */
+.team-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  margin-top: 25px;
+  gap: 20px;
+}
+
+.team-info div {
+  background: rgba(255,255,255,0.15);
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.team-info span {
+  display: block;
+  font-size: 13px;
+  opacity: .85;
+}
+
+.team-info strong {
+  font-size: 17px;
+}
+
+/* =========================
+   JUGADORES
+========================= */
+.players-section {
+  margin-top: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.08);
+}
+
+.players-section h3 {
+  font-size: 22px;
+  color: #0f172a;
+  margin-bottom: 20px;
+}
+
+/* TABLA */
+.players-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.players-section th {
+  background: #f1f5f9;
+  padding: 16px;
+  text-align: left;
+  color: #0f172a;
+}
+
+.players-section td {
+  padding: 16px;
+  color: #334155;
+}
+
+.players-section tbody tr {
+  transition: background .3s;
+}
+
+.players-section tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* BOTÓN ACCIÓN */
+.btn-team {
+  margin-top: 20px;
+  background: #1d4ed8;
+  border: none;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.btn-team:hover {
+  background: #1e40af;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(30,64,175,.4);
+}

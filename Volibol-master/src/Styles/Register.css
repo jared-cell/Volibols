@@ -1,0 +1,240 @@
+/* =========================
+   RESET Y BASE
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* =========================
+   FONDO GENERAL
+========================= */
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1e40af, #0f172a 65%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+.login-container {
+  width: 100%;
+  max-width: 460px;
+  animation: fadeIn 0.8s ease;
+}
+
+/* =========================
+   TARJETA
+========================= */
+.login-card {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-radius: 22px;
+  padding: 38px 34px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================
+   TÍTULOS
+========================= */
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.title::before {
+  content: "🏐 ";
+}
+
+.subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* LABELS CON EMOJI */
+.login-form label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+/* =========================
+   INPUTS
+========================= */
+.login-form input,
+.login-form select {
+  padding: 14px 15px;
+  border-radius: 12px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+}
+
+.login-form input::placeholder {
+  color: #94a3b8;
+}
+
+.login-form input:focus,
+.login-form select:focus {
+  outline: none;
+  background: white;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* =========================
+   RADIO / OPCIONES
+========================= */
+.radio-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.radio-group input {
+  accent-color: #2563eb;
+}
+
+.radio-group label:hover {
+  background: #e0e7ff;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   BLOQUES DINÁMICOS
+========================= */
+.dynamic-box {
+  background: #f8fafc;
+  border-left: 4px solid #2563eb;
+  padding: 14px;
+  border-radius: 12px;
+  animation: slideDown 0.4s ease;
+}
+
+/* =========================
+   BOTÓN PRINCIPAL
+========================= */
+.btn-primary {
+  margin-top: 16px;
+  padding: 15px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 14px 35px rgba(37, 99, 235, 0.5);
+}
+
+.btn-primary::before {
+  content: "🚀 ";
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 55px rgba(37, 99, 235, 0.65);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   LINKS
+========================= */
+.login-links {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 14px;
+  color: #475569;
+}
+
+.login-links a {
+  color: #2563eb;
+  text-decoration: none;
+  margin-left: 6px;
+  font-weight: 800;
+  position: relative;
+}
+
+.login-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.login-links a:hover::after {
+  width: 100%;
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

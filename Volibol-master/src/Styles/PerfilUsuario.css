@@ -1,0 +1,100 @@
+.perfil-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 35px 45px;
+  background: #ffffff;
+  border-radius: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  font-family: "Inter", system-ui, sans-serif;
+  animation: fadeIn 0.6s ease;
+}
+
+.perfil-container h1 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.perfil-subtitle {
+  text-align: center;
+  font-size: 15px;
+  color: #64748b;
+  margin-bottom: 35px;
+}
+
+.perfil-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.perfil-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.perfil-form input,
+.perfil-form textarea,
+.perfil-form select {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  font-size: 15px;
+}
+
+.perfil-form textarea {
+  grid-column: span 2;
+  min-height: 90px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  grid-column: span 2;
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed #cbd5e1;
+}
+
+.dynamic-field {
+  grid-column: span 2;
+  animation: slideDown 0.4s ease;
+}
+
+.perfil-button {
+  grid-column: span 2;
+  padding: 15px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.perfil-button.cancel {
+  background: #e5e7eb;
+  color: #1e293b;
+}
+
+.perfil-message {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 700px) {
+  .perfil-form {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-form textarea,
+  .checkbox-group,
+  .dynamic-field,
+  .perfil-button {
+    grid-column: span 1;
+  }
+}

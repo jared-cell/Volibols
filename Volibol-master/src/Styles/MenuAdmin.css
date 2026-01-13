@@ -1,0 +1,202 @@
+/* ========================
+   MENU ADMIN - Estilos
+======================== */
+
+/* Contenedor general */
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: #f4f6f8;
+}
+
+/* ========================
+   SIDEBAR
+======================== */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #1e3a8a, #2563eb);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.sidebar h2 {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.sidebar nav button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar nav button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.sidebar nav button.active {
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+.logout {
+  margin-top: auto;
+  padding: 0.8rem 1rem;
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.logout:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+/* ========================
+   CONTENIDO PRINCIPAL
+======================== */
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.content h2 {
+  margin-bottom: 1.5rem;
+  color: #1e3a8a;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.content table th,
+.content table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+}
+
+.content table th {
+  background: #1e3a8a;
+  color: #fff;
+  font-weight: 600;
+}
+
+.content table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.content table tr:hover {
+  background: rgba(37, 99, 235, 0.1);
+  transform: scale(1.01);
+  transition: all 0.2s;
+}
+
+/* Botones de acciones */
+.content table button {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 0.3rem;
+  transition: all 0.2s;
+}
+
+.content table button:hover {
+  transform: scale(1.05);
+}
+
+.content table button:first-child {
+  background: #22c55e;
+  color: #fff;
+}
+
+.content table button:first-child:hover {
+  background: #16a34a;
+}
+
+.content table button:last-child {
+  background: #ef4444;
+  color: #fff;
+}
+
+.content table button:last-child:hover {
+  background: #dc2626;
+}
+
+/* Formulario dentro del admin (nuevo jugador / partido) */
+.form-nuevo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-nuevo input,
+.form-nuevo select,
+.form-nuevo button {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.form-nuevo button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.form-nuevo button:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+/* Scroll content */
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f4f6f8;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 4px;
+}

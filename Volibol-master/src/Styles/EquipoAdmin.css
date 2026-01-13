@@ -1,0 +1,100 @@
+.equipos-admin-container {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+}
+
+.form-equipo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-equipo input {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.form-equipo button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-equipo button:hover {
+  background: #1e40af;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+}
+
+th {
+  background: #1e3a8a;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f0f4ff;
+}
+
+tr:hover {
+  background: #e0e7ff;
+}
+
+.btn-editar {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  margin-right: 0.3rem;
+  cursor: pointer;
+}
+
+.btn-eliminar {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-editar:hover {
+  background: #b45309;
+}
+
+.btn-eliminar:hover {
+  background: #b91c1c;
+}
