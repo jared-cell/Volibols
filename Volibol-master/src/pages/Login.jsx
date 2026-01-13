@@ -10,44 +10,42 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setError('')
 
     const email = e.target.email.value
     const password = e.target.password.value
 
     try {
-      let userData = null
-
-      // ===== ADMIN / ENTRENADOR FAKE =====
+      // ===== ADMIN FAKE (DESDE CÓDIGO) =====
       if (email === 'admin@gmail.com' && password === 'admin1') {
-        userData = {
+        const adminData = {
           nombre: 'Administrador',
           rol: 'admin',
-        }
-      } else {
-        // ===== USUARIO NORMAL =====
-        const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        const uid = userCredential.user.uid
-
-        const docRef = doc(db, 'usuarios', uid)
-        const docSnap = await getDoc(docRef)
-
-        if (!docSnap.exists()) {
-          setError('No se encontró la información del usuario')
-          return
+          email
         }
 
-        userData = docSnap.data()
+        localStorage.setItem('userData', JSON.stringify(adminData))
+        navigate('/menu-admin')
+        return
       }
 
-      // ===== GUARDAR DATOS EN LOCAL STORAGE =====
+      // ===== USUARIO NORMAL (FIREBASE) =====
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      const uid = userCredential.user.uid
+
+      const docRef = doc(db, 'usuarios', uid)
+      const docSnap = await getDoc(docRef)
+
+      if (!docSnap.exists()) {
+        setError('No se encontró la información del usuario')
+        return
+      }
+
+      const userData = docSnap.data()
       localStorage.setItem('userData', JSON.stringify(userData))
 
-      // ===== REDIRIGIR SEGÚN ROL =====
-      if (userData.rol === 'admin') {
-        navigate('/menu-admin')
-      } else {
-        navigate('/menu')
-      }
+      navigate('/menu')
+
     } catch (err) {
       setError('Correo o contraseña incorrectos')
     }

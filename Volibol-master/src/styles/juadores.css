@@ -1,0 +1,149 @@
+/* =======================
+   GENERAL PANEL ADMIN
+======================= */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =======================
+   SIDEBAR
+======================= */
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg, #1e293b, #334155);
+  color: white;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar nav button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar nav button:hover,
+.sidebar nav button.active {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.05);
+}
+
+.logout {
+  background: #ef4444;
+  border: none;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.logout:hover {
+  background: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* =======================
+   CONTENIDO
+======================= */
+.content {
+  flex: 1;
+  padding: 2rem;
+  background: #f0f2f5;
+}
+
+/* =======================
+   TABLAS
+======================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+thead {
+  background: #3b82f6;
+  color: white;
+}
+
+thead th {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background: #e0f2fe;
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}
+
+/* =======================
+   BOTONES DINÁMICOS
+======================= */
+button {
+  padding: 0.4rem 0.6rem;
+  margin: 0.2rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+/* Rendimiento */
+button:nth-child(1) { background: #10b981; } /* Bueno - Verde */
+button:nth-child(1):hover { background: #059669; transform: scale(1.1); }
+
+button:nth-child(2) { background: #facc15; color: black; } /* Regular - Amarillo */
+button:nth-child(2):hover { background: #eab308; transform: scale(1.1); }
+
+button:nth-child(3) { background: #ef4444; } /* Malo - Rojo */
+button:nth-child(3):hover { background: #b91c1c; transform: scale(1.1); }
+
+/* Dar de baja */
+button:nth-child(4) { background: #6b7280; } /* Gris */
+button:nth-child(4):hover { background: #4b5563; transform: scale(1.1); }
+
+/* =======================
+   ENCABEZADOS
+======================= */
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}

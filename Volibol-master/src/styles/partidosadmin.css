@@ -1,10 +1,15 @@
+/* Contenedor principal */
 .partidos-admin-container {
   padding: 2rem;
   font-family: 'Segoe UI', sans-serif;
   background: #f5f7fa;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -14,9 +19,11 @@ header {
 
 header h1 {
   color: #1e3a8a;
+  font-size: 2rem;
 }
 
-.btn-organizar {
+/* Botón principal */
+.btn-organizar, .btn-primary {
   background: #2563eb;
   color: white;
   padding: 0.8rem 1.5rem;
@@ -27,18 +34,71 @@ header h1 {
   transition: 0.3s;
 }
 
-.btn-organizar:hover {
+.btn-organizar:hover, .btn-primary:hover {
   background: #1e40af;
 }
 
+/* Filtros */
+.filtros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filtros button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #e0e7ff;
+  color: #1e3a8a;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.filtros button.active {
+  background: #2563eb;
+  color: white;
+}
+
+.filtros button:hover:not(.active) {
+  background: #c7d2fe;
+}
+
+/* Formulario agregar partido */
+.form-partido {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.form-partido input,
+.form-partido select {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  flex: 1 1 200px;
+}
+
+.form-partido button {
+  flex: 1 1 100%;
+  margin-top: 0.5rem;
+}
+
+/* Tabla de partidos */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 th, td {
@@ -49,6 +109,8 @@ th, td {
 th {
   background: #1e3a8a;
   color: white;
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
 
 tr:nth-child(even) {
@@ -59,18 +121,67 @@ tr:hover {
   background: #e0e7ff;
 }
 
+/* Badges de estado */
 .badge {
   padding: 0.4rem 0.8rem;
   border-radius: 12px;
   color: white;
   font-weight: bold;
   text-align: center;
+  display: inline-block;
+  min-width: 80px;
 }
 
-.badge.pending {
+.badge.proximo {
+  background: #2563eb;
+}
+
+.badge.encurso {
   background: #f59e0b;
 }
 
-.badge.done {
+.badge.finalizado {
   background: #10b981;
+}
+
+/* Botones acciones dentro de tabla */
+td button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+td button:hover {
+  opacity: 0.85;
+}
+
+td button:first-child {
+  background: #fbbf24;
+  color: white;
+}
+
+td button:last-child {
+  background: #ef4444;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .form-partido {
+    flex-direction: column;
+  }
+  
+  table th, table td {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .filtros {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

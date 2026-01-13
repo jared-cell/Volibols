@@ -1,123 +1,97 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
-import { signOut } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import Jugadores from "./Jugadores"; 
+import Equipos from "./Equipos"; 
+import PartidosAdmin from "./PartidosAdmin"; // <-- tu componente de partidos
 import "../styles/menuadmin.css";
 
 export default function MenuAdmin() {
+  const navigate = useNavigate();
   const [seccion, setSeccion] = useState("dashboard");
-  const [jugadores, setJugadores] = useState([]);
-  const [equipos, setEquipos] = useState([]);
   const [usuario, setUsuario] = useState({ nombre: "Admin / Entrenador", rol: "admin" });
+  const [jugadoresCount, setJugadoresCount] = useState(0);
+  const [equiposCount, setEquiposCount] = useState(0);
+
+  // =========================
+  // PROTECCIÓN DEL PANEL
+  // =========================
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (!userData || userData.rol !== "admin") {
+      navigate("/login");
+    } else {
+      setUsuario(userData);
+    }
+  }, [navigate]);
 
   // =========================
   // CERRAR SESIÓN
   // =========================
-  const cerrarSesion = async () => {
-    await signOut(auth);
+  const cerrarSesion = () => {
     localStorage.removeItem("userData");
-    window.location.href = "/login"; // redirige al login
+    navigate("/login");
   };
 
   // =========================
-  // CARGAR JUGADORES
+  // CONTADOR DE JUGADORES Y EQUIPOS
   // =========================
-  const cargarJugadores = async () => {
-    const jugadoresCol = collection(db, "usuarios");
-    const jugadoresSnap = await getDocs(jugadoresCol);
-    const jugadoresList = jugadoresSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setJugadores(jugadoresList);
-  };
-
-  // =========================
-  // CARGAR EQUIPOS
-  // =========================
-  const cargarEquipos = async () => {
-    const equiposCol = collection(db, "equipos"); // colección "equipos"
-    const equiposSnap = await getDocs(equiposCol);
-    const equiposList = equiposSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setEquipos(equiposList);
-  };
-
   useEffect(() => {
-    cargarJugadores();
-    cargarEquipos();
+    const fetchCounts = async () => {
+      try {
+        const { db } = await import("../firebase");
+        const { collection, getDocs } = await import("firebase/firestore");
+
+        // Contar jugadores activos
+        const jugadoresCol = collection(db, "usuarios");
+        const jugadoresSnap = await getDocs(jugadoresCol);
+        const jugadoresList = jugadoresSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setJugadoresCount(jugadoresList.filter(j => j.activo !== false).length);
+
+        // Contar equipos
+        const equiposCol = collection(db, "equipos");
+        const equiposSnap = await getDocs(equiposCol);
+        setEquiposCount(equiposSnap.docs.length);
+      } catch (err) {
+        console.error("Error al contar jugadores/equipos:", err);
+      }
+    };
+
+    fetchCounts();
   }, []);
 
   // =========================
-  // Contenido dinámico
+  // RENDER DEL CONTENIDO
   // =========================
   const renderContenido = () => {
     switch (seccion) {
       case "dashboard":
         return (
-          <div>
+          <div className="dashboard-content">
             <h2>📊 Dashboard Admin</h2>
-            <p>Jugadores registrados: {jugadores.length}</p>
-            <p>Equipos creados: {equipos.length}</p>
-            <p>Próximos partidos: 3</p>
+            <div className="cards">
+              <div className="card">
+                <h3>Jugadores activos</h3>
+                <p>{jugadoresCount}</p>
+              </div>
+              <div className="card">
+                <h3>Equipos creados</h3>
+                <p>{equiposCount}</p>
+              </div>
+              <div className="card">
+                <h3>Próximos partidos</h3>
+                <p>3</p>
+              </div>
+            </div>
           </div>
         );
       case "jugadores":
-        return (
-          <div>
-            <h2>🧑‍🤝‍🧑 Gestión de Jugadores</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Edad</th>
-                  <th>Peso</th>
-                  <th>Posición</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jugadores.map(j => (
-                  <tr key={j.id}>
-                    <td>{j.nombre}</td>
-                    <td>{j.edad}</td>
-                    <td>{j.peso}</td>
-                    <td>{j.posicion}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Jugadores />;
       case "equipos":
-        return (
-          <div>
-            <h2>🏟️ Gestión de Equipos</h2>
-            <button className="btn-editar" onClick={() => alert("Agregar equipo (pendiente CRUD)")}>
-              ➕ Agregar equipo
-            </button>
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre del equipo</th>
-                  <th>Jugadores</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {equipos.map(e => (
-                  <tr key={e.id}>
-                    <td>{e.nombre}</td>
-                    <td>{e.jugadores?.length || 0}</td>
-                    <td>
-                      <button className="btn-editar" onClick={() => alert("Editar equipo")}>Editar</button>
-                      <button className="btn-eliminar" onClick={() => alert("Eliminar equipo")}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Equipos />;
       case "partidos":
-        return <h2>🏐 Gestión de Partidos (pendiente implementar CRUD)</h2>;
+        return <PartidosAdmin />; // <-- aquí tu JSX de PartidosAdmin
       case "estadisticas":
-        return <h2>📊 Estadísticas del Equipo (pendiente implementar)</h2>;
+        return <h2>📊 Estadísticas del Equipo (pendiente)</h2>;
       case "perfil":
         return (
           <div>
@@ -135,14 +109,24 @@ export default function MenuAdmin() {
     <div className="admin-dashboard">
       {/* SIDEBAR */}
       <aside className="sidebar">
-        <h2>🏐 Admin Panel</h2>
+        <h2 className="logo">🏐 Admin Panel</h2>
         <nav>
-          <button onClick={() => setSeccion("dashboard")}>Dashboard</button>
-          <button onClick={() => setSeccion("jugadores")}>Jugadores</button>
-          <button onClick={() => setSeccion("equipos")}>Equipos</button>
-          <button onClick={() => setSeccion("partidos")}>Partidos</button>
-          <button onClick={() => setSeccion("estadisticas")}>Estadísticas</button>
-          <button onClick={() => setSeccion("perfil")}>Perfil Admin</button>
+          {[
+            { key: "dashboard", label: "Dashboard" },
+            { key: "jugadores", label: "Jugadores" },
+            { key: "equipos", label: "Equipos" },
+            { key: "partidos", label: "Partidos" },
+            { key: "estadisticas", label: "Estadísticas" },
+            { key: "perfil", label: "Perfil Admin" },
+          ].map(item => (
+            <button
+              key={item.key}
+              className={seccion === item.key ? "active" : ""}
+              onClick={() => setSeccion(item.key)}
+            >
+              {item.label}
+            </button>
+          ))}
         </nav>
         <button className="logout" onClick={cerrarSesion}>
           Cerrar sesión

@@ -4,7 +4,7 @@ import Register from "./pages/Register"
 import MenuUsuario from "./pages/MenuUsuario"
 import MiEquipo from "./pages/MiEquipo"
 import Partidos from "./pages/Partidos"
-import MenuAdmin from "./pages/MenuAdmin" // <--- Importa tu admin
+import MenuAdmin from "./pages/MenuAdmin"
 
 export default function App() {
   return (
@@ -20,7 +20,7 @@ export default function App() {
         <Route path="/mi-equipo" element={<MiEquipo />} />
         <Route path="/partidos" element={<Partidos />} />
 
-        {/* Página admin */}
+        {/* Página admin protegida desde MenuAdmin.jsx */}
         <Route path="/menu-admin" element={<MenuAdmin />} />
       </Routes>
     </BrowserRouter>

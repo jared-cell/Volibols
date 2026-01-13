@@ -1,0 +1,71 @@
+.partidos-page .subtitle {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.filtros {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filtros button {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 5px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filtros button.active,
+.filtros button:hover {
+  background: #2563eb;
+}
+
+.tabla-partidos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-partidos th,
+.tabla-partidos td {
+  border: 1px solid #1e40af;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.tabla-partidos th {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.tabla-partidos tr:nth-child(even) {
+  background-color: #f0f4ff;
+}
+
+.tabla-partidos button {
+  padding: 0.2rem 0.5rem;
+  border: none;
+  border-radius: 5px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tabla-partidos button:hover {
+  background: #2563eb;
+}
+
+.badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.proximo { background-color: #3b82f6; }
+.badge.encurso { background-color: #f59e0b; }
+.badge.finalizado { background-color: #10b981; }
