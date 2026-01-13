@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { signOut } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
-import "../styles/MenuAdmin.css";
+import "../styles/menuadmin.css";
 
 export default function MenuAdmin() {
   const [seccion, setSeccion] = useState("dashboard");

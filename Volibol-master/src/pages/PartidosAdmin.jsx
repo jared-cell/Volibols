@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../styles/PartidosAdmin.css"
+import "../styles/partidosadmin.css"
 
 export default function PartidosAdmin() {
   // Lista de equipos registrados

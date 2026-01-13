@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { db } from "../firebase"
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from "firebase/firestore"
-import "../styles/EquiposAdmin.css"
+import "../styles/equipoadmin.css"
 
 export default function EquiposAdmin() {
   const [equipos, setEquipos] = useState([])

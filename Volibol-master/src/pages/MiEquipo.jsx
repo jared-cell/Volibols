@@ -1,5 +1,5 @@
-import "../styles/MenuUsuario.css"
-import "../styles/MiEquipo.css"
+import "../styles/menuusuario.css"
+import "../styles/miequipo.css"
 import { useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
 import { auth } from "../firebase"
