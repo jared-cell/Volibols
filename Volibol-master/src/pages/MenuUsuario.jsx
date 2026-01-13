@@ -5,7 +5,7 @@ import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import Calendario from "../components/Calendario.jsx";
-import PerfilUsuario from "../components/PerfilUsuario"; // IMPORTAMOS tu componente
+import PerfilUsuario from "../components/PerfilUsuario.jsx"; // IMPORTAMOS tu componente
 import {
   FaHome,
   FaUsers,
