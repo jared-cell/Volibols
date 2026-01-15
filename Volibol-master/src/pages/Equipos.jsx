@@ -1,176 +1,235 @@
-import { useState, useEffect } from "react";
-import { db } from "../firebase";
+import { useEffect, useState } from "react"
+import { db } from "../firebase"
 import {
   collection,
   getDocs,
   addDoc,
-  doc,
   updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import "../styles/equipo.css";
+  doc,
+} from "firebase/firestore"
+import "../styles/equipoadmin.css"
 
-export default function Equipos() {
-  const [equipos, setEquipos] = useState([]);
-  const [jugadores, setJugadores] = useState([]);
-  const [nombreEquipo, setNombreEquipo] = useState("");
-  const [jugadoresSeleccionados, setJugadoresSeleccionados] = useState([]);
+const MAX_JUGADORES = 6
 
-  // =========================
-  // CARGAR JUGADORES
-  // =========================
-  const cargarJugadores = async () => {
-    try {
-      const jugadoresCol = collection(db, "usuarios");
-      const jugadoresSnap = await getDocs(jugadoresCol);
-      const jugadoresList = jugadoresSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+export default function EquiposAdmin() {
+  const [equipos, setEquipos] = useState([])
+  const [jugadores, setJugadores] = useState([])
+  const [equipoActual, setEquipoActual] = useState(null)
+  const [busqueda, setBusqueda] = useState("")
 
-      // Filtrar jugadores activos y que no estén ya en un equipo
-      const jugadoresEnEquipos = equipos.flatMap(e => e.jugadores || []);
-      const disponibles = jugadoresList.filter(j => j.activo !== false && !jugadoresEnEquipos.includes(j.uid));
-      
-      setJugadores(disponibles);
-    } catch (err) {
-      console.error("Error al cargar jugadores:", err);
-    }
-  };
-
-  // =========================
-  // CARGAR EQUIPOS
-  // =========================
+  /* =========================
+     CARGAR DATOS
+  ========================= */
   const cargarEquipos = async () => {
-    try {
-      const equiposCol = collection(db, "equipos");
-      const equiposSnap = await getDocs(equiposCol);
-      const equiposList = equiposSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setEquipos(equiposList);
-    } catch (err) {
-      console.error("Error al cargar equipos:", err);
-    }
-  };
+    const snap = await getDocs(collection(db, "equipos"))
+    setEquipos(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+  }
+
+  const cargarJugadores = async () => {
+    const snap = await getDocs(collection(db, "usuarios"))
+    setJugadores(
+      snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(u => u.rol === "jugador")
+    )
+  }
 
   useEffect(() => {
-    cargarEquipos();
-  }, []);
+    cargarEquipos()
+    cargarJugadores()
+  }, [])
 
-  useEffect(() => {
-    cargarJugadores();
-  }, [equipos]);
+  /* =========================
+     CREAR EQUIPO
+  ========================= */
+  const crearEquipo = async () => {
+    const nombre = prompt("Nombre del equipo:")
+    if (!nombre) return
 
-  // =========================
-  // SELECCIONAR / DESELECCIONAR JUGADORES
-  // =========================
-  const toggleJugador = (uid) => {
-    setJugadoresSeleccionados(prev =>
-      prev.includes(uid) ? prev.filter(j => j !== uid) : [...prev, uid]
-    );
-  };
+    await addDoc(collection(db, "equipos"), {
+      nombre,
+      jugadores: [],
+      activo: true,
+    })
 
-  // =========================
-  // AGREGAR EQUIPO
-  // =========================
-  const agregarEquipo = async (e) => {
-    e.preventDefault();
-    if (!nombreEquipo) return alert("Ingresa el nombre del equipo");
-    if (jugadoresSeleccionados.length === 0) return alert("Selecciona al menos un jugador");
+    cargarEquipos()
+  }
 
-    try {
-      await addDoc(collection(db, "equipos"), {
-        nombre: nombreEquipo,
-        jugadores: jugadoresSeleccionados, // guardamos UID
-      });
-      setNombreEquipo("");
-      setJugadoresSeleccionados([]);
-      cargarEquipos();
-    } catch (err) {
-      console.error("Error al agregar equipo:", err);
-      alert("No se pudo agregar el equipo");
-    }
-  };
+  /* =========================
+     ACTIVO / INACTIVO
+  ========================= */
+  const toggleActivo = async equipo => {
+    await updateDoc(doc(db, "equipos", equipo.id), {
+      activo: !equipo.activo,
+    })
+    cargarEquipos()
+  }
 
-  // =========================
-  // ELIMINAR EQUIPO
-  // =========================
-  const eliminarEquipo = async (id) => {
-    if (!window.confirm("¿Eliminar este equipo?")) return;
-    try {
-      await deleteDoc(doc(db, "equipos", id));
-      cargarEquipos();
-    } catch (err) {
-      console.error("Error al eliminar equipo:", err);
-      alert("No se pudo eliminar el equipo");
-    }
-  };
+  /* =========================
+     AGREGAR / QUITAR JUGADOR
+  ========================= */
+  const toggleJugador = async jugadorId => {
+    if (!equipoActual) return
 
-  // =========================
-  // EDITAR NOMBRE DEL EQUIPO
-  // =========================
-  const editarEquipo = async (id) => {
-    const nuevoNombre = prompt("Ingresa el nuevo nombre del equipo:");
-    if (!nuevoNombre) return;
-    try {
-      const equipoRef = doc(db, "equipos", id);
-      await updateDoc(equipoRef, { nombre: nuevoNombre });
-      cargarEquipos();
-    } catch (err) {
-      console.error("Error al editar equipo:", err);
-      alert("No se pudo actualizar el nombre del equipo");
-    }
-  };
+    const yaEsta = equipoActual.jugadores.includes(jugadorId)
+
+    // máximo 6
+    if (!yaEsta && equipoActual.jugadores.length >= MAX_JUGADORES) return
+
+    const nuevos = yaEsta
+      ? equipoActual.jugadores.filter(j => j !== jugadorId)
+      : [...equipoActual.jugadores, jugadorId]
+
+    await updateDoc(doc(db, "equipos", equipoActual.id), {
+      jugadores: nuevos,
+    })
+
+    setEquipoActual({ ...equipoActual, jugadores: nuevos })
+    cargarEquipos()
+  }
+
+  /* =========================
+     FILTRO ÚNICO
+  ========================= */
+  const jugadoresFiltrados = jugadores.filter(j => {
+    const texto = busqueda.toLowerCase()
+    return (
+      j.nombre?.toLowerCase().includes(texto) ||
+      String(j.edad).includes(texto) ||
+      j.genero?.toLowerCase().includes(texto)
+    )
+  })
 
   return (
-    <div>
-      <h2>🏟️ Gestión de Equipos</h2>
+    <div className="equipo-admin">
 
-      {/* FORMULARIO AGREGAR EQUIPO */}
-      <form onSubmit={agregarEquipo} className="form-equipo">
+      <header>
+        <h1>Gestión de Equipos</h1>
+        <button className="btn primary" onClick={crearEquipo}>
+          ➕ Nuevo Equipo
+        </button>
+      </header>
+
+      {/* ================= TABLA EQUIPOS ================= */}
+      <div className="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Jugadores</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equipos.map(e => (
+              <tr key={e.id}>
+                <td>{e.nombre}</td>
+                <td>{e.jugadores.length} / {MAX_JUGADORES}</td>
+                <td>
+                  <span className={`estado ${e.activo ? "activo" : "inactivo"}`}>
+                    {e.activo ? "Activo" : "Inactivo"}
+                  </span>
+                </td>
+                <td className="acciones">
+                  <button className="btn edit" onClick={() => setEquipoActual(e)}>
+                    Editar
+                  </button>
+                  <button className="btn danger" onClick={() => toggleActivo(e)}>
+                    {e.activo ? "Dar de baja" : "Activar"}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ================= BUSCADOR Y TABLA JUGADORES FUERA DEL MODAL ================= */}
+      <div className="panel jugadores-panel">
+        <h2>Jugadores</h2>
         <input
           type="text"
-          placeholder="Nombre del equipo"
-          value={nombreEquipo}
-          onChange={(e) => setNombreEquipo(e.target.value)}
+          className="buscador"
+          placeholder="Buscar por nombre, edad o género"
+          value={busqueda}
+          onChange={e => setBusqueda(e.target.value)}
         />
 
-        <div className="jugadores-checkbox">
-          {jugadores.map(j => (
-            <label key={j.uid}>
-              <input
-                type="checkbox"
-                checked={jugadoresSeleccionados.includes(j.uid)}
-                onChange={() => toggleJugador(j.uid)}
-              />
-              {j.nombre}
-            </label>
-          ))}
-        </div>
-
-        <button type="submit" className="btn-primary">
-          ➕ Agregar Equipo
-        </button>
-      </form>
-
-      {/* LISTADO DE EQUIPOS */}
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Jugadores</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {equipos.map(e => (
-            <tr key={e.id}>
-              <td>{e.nombre}</td>
-              <td>{e.jugadores?.length || 0}</td>
-              <td>
-                <button className="btn-editar" onClick={() => editarEquipo(e.id)}>Editar</button>
-                <button className="btn-eliminar" onClick={() => eliminarEquipo(e.id)}>Eliminar</button>
-              </td>
+        <table className="tabla-jugadores compacta">
+          <thead>
+            <tr>
+              <th>Jugador</th>
+              <th>Equipo</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {jugadoresFiltrados.map(j => {
+              const equipo = equipos.find(eq => eq.jugadores.includes(j.id))
+              return (
+                <tr key={j.id}>
+                  <td>
+                    {j.nombre} <small>{j.edad} · {j.genero}</small>
+                  </td>
+                  <td>{equipo ? equipo.nombre : "Sin equipo"}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ================= MODAL ================= */}
+      {equipoActual && (
+        <div className="modal-overlay">
+          <div className="modal modal-sm">
+            <div className="modal-header">
+              <h2>{equipoActual.nombre}</h2>
+              <span>{equipoActual.jugadores.length} / {MAX_JUGADORES}</span>
+              <button onClick={() => setEquipoActual(null)}>✖</button>
+            </div>
+
+            {/* TABLA DE JUGADORES PARA EDITAR EQUIPO */}
+            <table className="tabla-jugadores compacta">
+              <thead>
+                <tr>
+                  <th>Jugador</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jugadores.map(j => {
+                  const enOtroEquipo = equipos.some(
+                    eq => eq.id !== equipoActual.id && eq.jugadores.includes(j.id)
+                  )
+                  const enEste = equipoActual.jugadores.includes(j.id)
+                  const lleno = !enEste && equipoActual.jugadores.length >= MAX_JUGADORES
+
+                  return (
+                    <tr key={j.id}>
+                      <td>
+                        {j.nombre} <small>{j.edad} · {j.genero}</small>
+                      </td>
+                      <td>
+                        {enOtroEquipo ? (
+                          <span className="ocupado">Otro equipo</span>
+                        ) : lleno ? (
+                          <span className="ocupado">Completo</span>
+                        ) : (
+                          <button className="btn small" onClick={() => toggleJugador(j.id)}>
+                            {enEste ? "Quitar" : "Agregar"}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      )}
     </div>
-  );
+  )
 }
