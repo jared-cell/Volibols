@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { auth, db } from "../firebase"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
-import "../styles/PerfilUsuario.css"
+import "../styles/perfilusuario.css"
 
 export default function PerfilUsuario() {
   const [usuario, setUsuario] = useState(null)
